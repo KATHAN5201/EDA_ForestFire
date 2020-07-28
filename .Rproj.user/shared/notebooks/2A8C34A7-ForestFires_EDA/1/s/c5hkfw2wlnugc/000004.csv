@@ -1,0 +1,5 @@
+"0","ggplot(forest_fire,"
+"0","       aes("
+"0","         x=area"
+"0","       ))+"
+"0","  geom_histogram()"

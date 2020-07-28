@@ -1,0 +1,218 @@
+---
+title: "Exploratory Data Analysis of Forest Fire Data"
+author: "Kathan Vakharia"
+date: "28/07/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+* Forest fires can create ecological problems and endanger human lives and property. Understanding when they occur and what causes them is important for managing them.
+
+**Visualization** is one of the most important skills that every Data Analyst should possess. In this project, I perform the most simple form of **Exploratory data analyses** of [Forest Fire data set](https://archive.ics.uci.edu/ml/machine-learning-databases/forest-fires/).
+
+This data-set about forest fires occurring in Portugal and based on this [scientific research paper](http://www3.dsi.uminho.pt/pcortez/fires.pdf).
+
+**Main Goal**:To find our patterns in occurrence of forest fire  
+
+## Initial Setup
+```{r Setup, message=FALSE}
+#importing data
+library(tidyverse)
+forest_fire = read_csv("forestfires.csv")
+```
+
+## Getting premliminary isights
+
+```{r}
+glimpse(forest_fire)
+```
+
+So there are `r nrow(forest_fire)` and `r ncol(forest_fire)` in our data set.Let's  see some of the rows.
+
+```{r}
+head(forest_fire, n=11)
+```
+
+### Description of Various Columns
+Here are descriptions of the variables in the data set and the range of values for each taken from the paper:
+
+* X: X-axis spatial coordinate within the Montesinho park map: 1 to 9
+* Y: Y-axis spatial coordinate within the Montesinho park map: 2 to 9
+* month: Month of the year: 'jan' to 'dec'
+* day: Day of the week: 'mon' to 'sun'
+* FFMC: Fine Fuel Moisture Code index from the FWI system: 18.7 to 96.20
+* DMC: Duff Moisture Code index from the FWI system: 1.1 to 291.3
+* DC: Drought Code index from the FWI system: 7.9 to 860.6
+* ISI: Initial Spread Index from the FWI system: 0.0 to 56.10
+* temp: Temperature in Celsius degrees: 2.2 to 33.30
+* RH: Relative humidity in percentage: 15.0 to 100
+* wind: Wind speed in km/h: 0.40 to 9.40
+rain: Outside rain in mm/m2 : 0.0 to 6.4
+* area: The burned area of the forest (in ha): 0.00 to 1090.84
+
+
+> The X and Y variables are coordinates of fire locations.
+>
+> The acronym FWI stands for "fire weather index", a method 
+used by scientists to quantify risk factors for forest fires.
+
+## Visualizing relation b/w forest fire and Weekdays & Months
+
+```{r}
+#generic function to create bar graphs
+create_bar <- function(dframe,x, y){
+  ggplot(data = dframe,
+         aes_string(x, y)
+  )+
+    geom_bar(stat="identity")+
+    labs(y="Total Forest Fires")+
+    theme(panel.background = element_rect(fill = "white"))
+}
+```
+
+
+```{r}
+forest_fire_by_month <- forest_fire %>%
+  group_by(month) %>%
+  summarise(
+    count = n(),
+    .groups="drop"
+  )%>%
+  mutate(
+    month = factor(month,
+                   levels=c("jan", "feb", "mar", "apr", "may",
+                            "jun", "jul", "aug", "sep", "oct",
+                            "nov", "dec")
+                   )
+  )
+```
+```{r}
+forest_fire_by_day <- forest_fire %>%
+  group_by(day) %>%
+  summarise(
+    count = n(),
+    .groups="drop"
+  )%>%
+  mutate(
+    day = factor(day, 
+                 levels=c("sun", "mon", "tue", "wed", "thu",
+                          "fri", "sat")
+    )
+  )
+```
+
+```{r}
+#plotting the bar graphs
+create_bar(forest_fire_by_day,"day", "count")
+create_bar(forest_fire_by_month, "month", "count")
+```
+
+### Examining spread of various factors using Box plots
+
+```{r}
+create_box <- function( x, y){
+  ggplot(data=forest_fire,
+         aes_string(x=x,
+                    y=y
+                    )
+         )+
+    geom_boxplot()+
+    theme(panel.background = element_rect("white"))
+}
+```
+
+```{r}
+#Creating various box plots by vectorization
+
+x_var_month <- names(forest_fire)[3] ## month
+x_var_day <- names(forest_fire)[4] ## day
+y_var <- names(forest_fire)[5:12]
+
+month_box <- map2(x_var_month, y_var, create_box)
+day_box <- map2(x_var_day, y_var, create_box)
+
+```
+```{r month box}
+month_box
+day_box
+```
+
+### Examining the relation b/w Area and various factors
+```{r}
+#generic function to create scatter
+create_scatter <- function(x, y){
+  ggplot(data=forest_fire,
+         aes_string(
+           x=x,
+           y=y 
+         ))+
+    geom_point()+
+    theme(panel.background = element_rect(fill = "white"))
+}
+```
+```{r}
+x_var_scatter = names(forest_fire)[5:12]
+y_var_scatter = names(forest_fire)[13] ##area
+
+scatters <- map2(x_var_scatter, y_var_scatter, create_scatter)
+scatters
+```
+
+We can notice that the scatter plot is clustered in bottom because there are very few high values of `area` and more values are spread in lower range.
+
+- Let's try to see the range of `area` column
+```{r}
+summary(forest_fire$area)
+```
+Looking at the 3rd quartile we can conclude that more than 75%
+of the values of `area` are less than `6.57`. 
+
+For more clarity let's plot a histogram of `area` column
+
+```{r area column, echo=FALSE, message=FALSE}
+ggplot(forest_fire,
+       aes(
+         x=area
+       ))+
+  geom_histogram()
+```
+And Indeed, it is the case.
+
+## Conclusion
+
+We conclude that how important it is to visualize data.It will
+help us in making various statistical models for performing predictions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

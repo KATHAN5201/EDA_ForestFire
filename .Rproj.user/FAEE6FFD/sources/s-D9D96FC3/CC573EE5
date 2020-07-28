@@ -1,0 +1,32 @@
+{
+    "id": "CC573EE5",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1595889915208.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "expression": "forest_fire",
+        "caption": "forest_fire",
+        "totalObservations": 517,
+        "displayedObservations": 517,
+        "variables": 13,
+        "cacheKey": "ED58A1D7",
+        "object": "forest_fire",
+        "environment": "",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=forest_fire&cache_key=ED58A1D7&max_cols=50",
+        "preview": 0
+    },
+    "folds": "",
+    "lastKnownWriteTime": 3761407534145484089,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1595889915208,
+    "read_only": false,
+    "read_only_alternatives": []
+}

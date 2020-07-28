@@ -1,0 +1,32 @@
+{
+    "id": "C3F90929",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1595891572334.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "expression": "forest_fire_by_month",
+        "caption": "forest_fire_by_month",
+        "totalObservations": 12,
+        "displayedObservations": 12,
+        "variables": 2,
+        "cacheKey": "DF0B3787",
+        "object": "forest_fire_by_month",
+        "environment": "",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=forest_fire_by_month&cache_key=DF0B3787&max_cols=50",
+        "preview": 0
+    },
+    "folds": "",
+    "lastKnownWriteTime": 7160565582308668259,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1595891572334,
+    "read_only": false,
+    "read_only_alternatives": []
+}
